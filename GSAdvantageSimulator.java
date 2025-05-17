@@ -17,7 +17,7 @@ import java.util.*;
  * Tom Forsyth
  */
 
-public class GunslingerAdvantageSimulator {
+public class GSAdvantageSimulator {
 
     static class Combat {
         int totalDamage;
@@ -82,7 +82,11 @@ public class GunslingerAdvantageSimulator {
                     hits++;
                     int damage = rollDie(damageDie) + dexModifier;
                     totalDamage += damage;
-                    critThreshold = Math.max(16, critThreshold - 1);
+                    if (level >= 14) {
+                        critThreshold = Math.max(16, critThreshold - 2);
+                    } else {
+                        critThreshold = Math.max(16, critThreshold - 1);
+                    }
                 } else {
                     // Miss
                     critThreshold = 20;
@@ -102,7 +106,7 @@ public class GunslingerAdvantageSimulator {
     public static void main(String[] args) {
         String inputFile = "input.tsv";
         String outputFile = "output.tsv";
-        int simulations = 10000000;
+        int simulations = 1000000;
     
         try (
             BufferedReader br = new BufferedReader(new FileReader(inputFile));

@@ -2,11 +2,11 @@ import java.io.*;
 import java.util.*;
 
 /*
- * This class simulates combat encounters with the Homebrew Gunslinger class by Heavyarms.
+ * This class simulates combat encounters with the Homebrew Gunslinger class by Heavyarms
+ * if it were given the Vex weapon mastery from 5.5e
  * 
  * Assumptions Made:
  * - Three attacks per combat (pistoleiro feat), no other abilities.
- * - However, it does take into account the level 20 Golden Gun feature.
  * 
  * Kryxx spreadsheet for AC distribution:
  * https://docs.google.com/spreadsheets/d/1d-9xDdath8kX_v7Rpts9JFIJwIG3X0-dDUtfax14NT0/view?gid=2091322934#gid=2091322934
@@ -17,7 +17,7 @@ import java.util.*;
  * Tom Forsyth
  */
 
-public class GunslingerSimulator {
+public class GSVexSimulator {
 
     static class Combat {
         int totalDamage;
@@ -57,7 +57,7 @@ public class GunslingerSimulator {
         for (int round = 0; round < rounds; round++) {
             for (int attack = 0; attack < 3; attack++) {
                 int d20;
-                if (level >= 20 && critThreshold <= 16) {
+                if (critThreshold < 20) {
                     d20 = rollWithAdvantage();
                 } else {
                     d20 = rollDie(20);
@@ -88,7 +88,11 @@ public class GunslingerSimulator {
                     hits++;
                     int damage = rollDie(damageDie) + dexModifier;
                     totalDamage += damage;
-                    critThreshold = Math.max(16, critThreshold - 1);
+                    if (level >= 14) {
+                        critThreshold = Math.max(16, critThreshold - 2);
+                    } else {
+                        critThreshold = Math.max(16, critThreshold - 1);
+                    }
                 } else {
                     // Miss
                     critThreshold = 20;
@@ -108,7 +112,7 @@ public class GunslingerSimulator {
     public static void main(String[] args) {
         String inputFile = "input.tsv";
         String outputFile = "output.tsv";
-        int simulations = 10000000;
+        int simulations = 1000000;
     
         try (
             BufferedReader br = new BufferedReader(new FileReader(inputFile));
