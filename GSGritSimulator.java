@@ -192,6 +192,7 @@ public class GSGritSimulator {
                 Attack res = makeAttack(level, damageDie, badMedicine, badMedicineDie, proficiencyBonus, dexModifier,
                         wisdomModifier, rounds, AC, critThreshold, grit, advantage);
                 totalDamage += res.totalDamage;
+                if (attack == 2) totalDamage -= dexModifier;
                 hits += res.hits;
                 crits += res.crits;
                 critThreshold = res.critThreshold;

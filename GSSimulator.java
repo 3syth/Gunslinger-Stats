@@ -53,6 +53,7 @@ public class GSSimulator {
         int crits = 0;
 
         int critThreshold = 20;
+        AC = (int) Math.round(rand.nextGaussian() + AC); // Normal distribution of AC
 
         for (int round = 0; round < rounds; round++) {
             for (int attack = 0; attack < 3; attack++) {
